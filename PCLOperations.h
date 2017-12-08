@@ -99,8 +99,8 @@ class PCLOperations {
     static pcl::PointCloud<PointT>::Ptr polynomialReconstruction(pcl::PointCloud<PointT>::Ptr cloud){
 
             // Create a KD-Tree
-            //pcl::search::KdTree<pcl::PointXYZRGBA>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZRGBA>);
-			pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
+            pcl::search::KdTree<pcl::PointXYZRGBA>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZRGBA>);
+			//pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
 
             // Output has the PointNormal type in order to store the normals calculated by MLS
              pcl::PointCloud<pcl::PointNormal> mls_points;
