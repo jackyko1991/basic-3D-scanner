@@ -52,75 +52,42 @@
 
 using std::vector;
 
+    const double RAD_PER_DEGREE = 0.0174532925;
 class PCLOperations {
-    static const double RAD_PER_DEGREE = 0.0174532925;
     public:
-    static void clip(ColorCloudPtr& cloud,ColorCloudPtr& cloud_out, float x_min, float x_max, float y_min, float y_max, float z_min, float z_max) {
+    static void clip(GrayCloudPtr& cloud, GrayCloudPtr& cloud_out, float x_min, float x_max, float y_min, float y_max, float z_min, float z_max) {
 
         // Create a cloud if it's null
         if (!cloud_out)
-        cloud_out = ColorCloudPtr(new ColorCloud());
+        cloud_out = GrayCloudPtr(new GrayCloud());
       
-#ifdef __linux__
-        
-        pcl::PassThrough<PointXYZRGBA> pass;
-        pass.setInputCloud (cloud);
-        pass.setFilterFieldName ("y");
-        pass.setFilterLimits (y_min, y_max);
-        pass.filter (*cloud_out);
- 
-        pass.setInputCloud (cloud_out);
-        pass.setFilterFieldName ("x");
-        pass.setFilterLimits (x_min, x_max);
-        pass.filter (*cloud_out);
- 
-        pass.setInputCloud (cloud_out);
-        pass.setFilterFieldName ("z");
-        pass.setFilterLimits (z_min, z_max);
-        pass.filter (*cloud_out);
-        
-#else
-        
+		pcl::PassThrough<PointXYZ> pass;
+		pass.setInputCloud(cloud);
+		pass.setFilterFieldName("y");
+		pass.setFilterLimits(y_min, y_max);
+		pass.filter(*cloud_out);
 
-        // cm -> m for the comparison
-        const float x_min = .01f * _x_min;
-        const float x_max = .01f * _x_max;
-        const float y_min = .01f * _y_min;
-        const float y_max = .01f * _y_max;
-        const float z_min = .01f * _z_min;
-        const float z_max = .01f * _z_max;
+		pass.setInputCloud(cloud_out);
+		pass.setFilterFieldName("x");
+		pass.setFilterLimits(x_min, x_max);
+		pass.filter(*cloud_out);
 
-        cloud_out->reserve(cloud->size());
-        
-        PointXYZRGBA nan;
-        nan.x = nan.y = nan.z = std::numeric_limits <float>::quiet_NaN();
-        for(ColorCloud::const_iterator i = cloud->begin(); i != cloud->end(); ++i) {
-            if( boost::math::isnan(i->x) ||
-                i->x <= x_min || i->x >= x_max ||
-                i->y <= y_min || i->y >= y_max ||
-                i->z <= z_min || i->z >= z_max)
-                cloud_out->push_back(nan);
-                //true;
-            else
-                cloud_out->push_back(*i);
-        }
-        
-        cloud_out->width = cloud->width;
-        cloud_out->height = cloud->height;
-        cloud_out->is_dense = false;
-        
-#endif
+		pass.setInputCloud(cloud_out);
+		pass.setFilterFieldName("z");
+		pass.setFilterLimits(z_min, z_max);
+		pass.filter(*cloud_out);
+
     }
     
-    static void voxelGrid(ColorCloudPtr& cloud) {
-        pcl::VoxelGrid<PointXYZRGBA> grid;
+    static void voxelGrid(GrayCloudPtr& cloud) {
+        pcl::VoxelGrid<PointXYZ> grid;
         grid.setLeafSize (0.001, 0.001, 0.001);
         grid.setInputCloud (cloud);
         grid.filter (*cloud);
     }
     
-    static void radiusOutlierRemoval(ColorCloudPtr& cloud) {
-        pcl::RadiusOutlierRemoval<pcl::PointXYZRGBA> outrem;
+    static void radiusOutlierRemoval(GrayCloudPtr& cloud) {
+        pcl::RadiusOutlierRemoval<pcl::PointXYZ> outrem;
         // build the filter
         outrem.setInputCloud(cloud);
         outrem.setRadiusSearch(0.001);
@@ -132,7 +99,8 @@ class PCLOperations {
     static pcl::PointCloud<PointT>::Ptr polynomialReconstruction(pcl::PointCloud<PointT>::Ptr cloud){
 
             // Create a KD-Tree
-            pcl::search::KdTree<pcl::PointXYZRGBA>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZRGBA>);
+            //pcl::search::KdTree<pcl::PointXYZRGBA>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZRGBA>);
+			pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
 
             // Output has the PointNormal type in order to store the normals calculated by MLS
              pcl::PointCloud<pcl::PointNormal> mls_points;
@@ -143,6 +111,7 @@ class PCLOperations {
             mls.setComputeNormals (true);
 
             // Set parameters
+
              mls.setInputCloud (cloud);
              mls.setPolynomialFit (true);
              mls.setSearchMethod (tree);
@@ -157,9 +126,13 @@ class PCLOperations {
             return cloud;
     }
     
-    static void convertCloudTypes(ColorCloudPtr c1, GrayCloudPtr c2) {
+    static void convertCloudTypes2Gray(ColorCloudPtr c1, GrayCloudPtr c2) {
         pcl::copyPointCloud(*c1,*c2);
     }
+
+	static void convertCloudTypes2Color(GrayCloudPtr c1, ColorCloudPtr c2) {
+		pcl::copyPointCloud(*c1, *c2);
+	}
    
     static Mesh convertToMesh(GrayCloudPtr& tmp) {
         std::cerr << "tmp w:" << tmp->width << " tmp h: " << tmp->height << " tmp s:"  << tmp->size() << std::endl;
@@ -239,14 +212,14 @@ class PCLOperations {
         pcl::transformPointCloud(*cloud_in,*cloud_in,offset,rotation);
     }
 
-    static void translateCloud(ColorCloudPtr cloud_in, const float x_mov, const float y_mov, const float z_mov){
+    static void translateCloud(GrayCloudPtr cloud_in, const float x_mov, const float y_mov, const float z_mov){
         Eigen::Vector3f offset(x_mov,y_mov,z_mov); 
         Eigen::Quaternionf rotation;
         rotation.setIdentity();
         pcl::transformPointCloud(*cloud_in,*cloud_in,offset,rotation);
     }
     
-    static void rotateCloud(ColorCloudPtr cloud_in, int stepSize, int count) {
+    static void rotateCloud(GrayCloudPtr cloud_in, int stepSize, int count) {
         Eigen::Vector3f offset(0,0,0);
         Eigen::Quaternionf rotation;
         rotation.setIdentity();
@@ -259,7 +232,7 @@ class PCLOperations {
 
 
     static double toRadian(const double degree){
-        return degree * PCLOperations::RAD_PER_DEGREE;
+        return degree * RAD_PER_DEGREE;
     }
 
     static Eigen::Matrix4f generateTransformMatrixY(const double degree){
@@ -304,7 +277,7 @@ class PCLOperations {
       * \param output the resultant aligned source PointCloud
       * \param final_transform the resultant transform between source and target
       */
-    void pairAlign (const ColorCloudPtr cloud_src, const ColorCloudPtr cloud_tgt, ColorCloudPtr output, Eigen::Matrix4f &final_transform, bool downsample = false)
+    void pairAlign (const GrayCloudPtr cloud_src, const GrayCloudPtr cloud_tgt, GrayCloudPtr output, Eigen::Matrix4f &final_transform, bool downsample = false)
     {
         using namespace pcl;
         GrayCloudPtr cloud_src_gray(new GrayCloud),cloud_tgt_gray(new GrayCloud);
@@ -315,7 +288,7 @@ class PCLOperations {
         // \note enable this for large datasets
         GrayCloudPtr src (new GrayCloud);
         GrayCloudPtr tgt (new GrayCloud);
-        pcl::VoxelGrid<PointXYZ> grid;
+        pcl::VoxelGrid<pcl::PointXYZ> grid;
         if (downsample)
         {
           grid.setLeafSize (0.05, 0.05, 0.05);
@@ -337,7 +310,7 @@ class PCLOperations {
         PointCloudWithNormals::Ptr points_with_normals_src (new PointCloudWithNormals);
         PointCloudWithNormals::Ptr points_with_normals_tgt (new PointCloudWithNormals);
 
-        pcl::NormalEstimation<PointXYZ, PointNormalT> norm_est;
+        pcl::NormalEstimation<pcl::PointXYZ, PointNormalT> norm_est;
         pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ> ());
         norm_est.setSearchMethod (tree);
         norm_est.setKSearch (100);

@@ -14,12 +14,13 @@
 
 #include <boost/thread/mutex.hpp>
 
-#include <pcl/io/openni_grabber.h>
+#include <pcl/io/openni2_grabber.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/pcl_visualizer.h>
 
+#include <vtkRenderWindow.h>
 
-#include "motordriver.h"
+//#include "motordriver.h"
 #include "PCDIO.h"
 #include "PCLOperations.h"
 #include "types.h"
@@ -37,7 +38,7 @@ public:
     
     explicit MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
-    void cloudCallBack(const ColorCloudConstPtr& cloud);
+    void cloudCallBack(const GrayCloudConstPtr& cloud);
 
     void meshToTriangle();
     void run();
@@ -75,14 +76,14 @@ private:
     Ui::MainWindow *ui;
     boost::shared_ptr<pcl::visualization::PCLVisualizer> _visualizer;
     
-    ColorCloudConstPtr _latestCloud;
-    ColorCloudConstPtr _combinedCloud;
+    GrayCloudConstPtr _latestCloud;
+    GrayCloudConstPtr _combinedCloud;
     Mesh _combinedMesh;
     mutable boost::mutex _cloud_mutex;
     mutable boost::mutex _visualizer_mutex;
-    std::vector<ColorCloudPtr> _clouds;
+    std::vector<GrayCloudPtr> _clouds;
     pcl::Grabber* _grabber;
-    MotorDriver _motorDriver;
+    //MotorDriver _motorDriver;
     bool _showMesh;
     QTimer *_vis_timer;
     QTimer *_oneTimeEvent;

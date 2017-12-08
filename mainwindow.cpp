@@ -8,7 +8,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _grabber(new pcl::OpenNIGrabber()),
+    _grabber(new pcl::io::OpenNI2Grabber()),
     _showMesh(true),
     running(false),
     _capture(false),
@@ -25,13 +25,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     std::cerr << "Creating Visualizer" << std::endl;
     _visualizer.reset (new pcl::visualization::PCLVisualizer ("", false));
-    ui->vtkWidget->SetRenderWindow (_visualizer->getRenderWindow ());
-    _visualizer->setupInteractor (ui->vtkWidget->GetInteractor(), ui->vtkWidget->GetRenderWindow ());
+    ui->vtkWidget->SetRenderWindow (_visualizer->getRenderWindow());
+    _visualizer->setupInteractor (ui->vtkWidget->GetInteractor(), ui->vtkWidget->GetRenderWindow());
     _visualizer->getInteractorStyle ()->setKeyboardModifier (pcl::visualization::INTERACTOR_KB_MOD_SHIFT);
     ui->vtkWidget->update();
 
-    progressUpdate(2,"Initialing");
-    boost::function<void (const ColorCloudConstPtr&) > f =
+    progressUpdate(2,"Initializing");
+    boost::function<void (const GrayCloudConstPtr&) > f =
             boost::bind(&MainWindow::cloudCallBack, this, _1);
     
     boost::signals2::connection c = _grabber->registerCallback(f);
@@ -83,8 +83,8 @@ void MainWindow::visualize() {
     updateClippingBox();
     
     if(_latestCloud) {
-        ColorCloudPtr tmp(new ColorCloud),
-                      cloud_out(new ColorCloud);
+       GrayCloudPtr tmp(new GrayCloud),
+                      cloud_out(new GrayCloud);
         boost::mutex::scoped_lock lock(_cloud_mutex);
         pcl::copyPointCloud(*_latestCloud,*tmp);
 
@@ -147,7 +147,7 @@ void MainWindow::onCaptureClick() {
     updateKinectStatusOn();
     refreshFormElements();
     running = true;
-    std::cerr << "Capture Count " << getCaptureCount() << std::cerr;
+    //std::cerr << "Capture Count " << getCaptureCount() << std::cerr;
     _progressDialog = new QProgressDialog("Capturing Started...", "C", 0, getCaptureCount()+1, this);
     _progressDialog->setWindowModality(Qt::WindowModal);
     _progressDialog->setCancelButton(NULL);
@@ -232,7 +232,7 @@ void MainWindow::updateClippingBox() {
         _visualizer->addLine(p1,p2,1,0,0,"MiddleLine");
 }
 
-void MainWindow::cloudCallBack(const ColorCloudConstPtr& cloud) {
+void MainWindow::cloudCallBack(const GrayCloudConstPtr& cloud) {
     boost::mutex::scoped_lock lock(_cloud_mutex);
     _latestCloud = cloud;
     _showMesh = true;
@@ -257,8 +257,8 @@ void MainWindow::run() {
     progressUpdate(8,"Capturing Started");
     while(_clouds.size() <= getCaptureCount()) {
         progressUpdate(8,"Getting Cloud");
-        ColorCloudPtr tmp(new ColorCloud),
-                      cloud_out(new ColorCloud);
+        GrayCloudPtr tmp(new GrayCloud),
+                      cloud_out(new GrayCloud);
         boost::mutex::scoped_lock lock(_cloud_mutex);
         pcl::copyPointCloud(*_latestCloud,*tmp);
         progressUpdate(8,"Unlocking");
@@ -271,7 +271,7 @@ void MainWindow::run() {
         std::cerr << "sleep time: " << getSleepTime() << std::endl;
         PCLOperations::rotateCloud(cloud_out,getCaptureCount(),_rotationCount++);
         boost::this_thread::sleep(boost::posix_time::milliseconds(getSleepTime()));
-        _motorDriver.stepLeft(50/getCaptureCount());
+        //_motorDriver.stepLeft(50/getCaptureCount());
         boost::this_thread::sleep(boost::posix_time::milliseconds(getSleepTime()));
         progressUpdate(8,"Cleaning");
         std::vector<int> indices;
@@ -294,9 +294,9 @@ void MainWindow::run() {
     _progressDialog->activateWindow();
     _progressDialog->setValue(0);
     progressUpdate(7,"Creating transform");
-    ColorCloudPtr result (_clouds.at(0)), 
-                  source(new ColorCloud), 
-                  target(new ColorCloud);
+    GrayCloudPtr result (_clouds.at(0)), 
+                  source(new GrayCloud), 
+                  target(new GrayCloud);
     Eigen::Matrix4f GlobalTransform = Eigen::Matrix4f::Identity (), 
                     pairTransform = Eigen::Matrix4f::Identity ();
     //ColorCloudPtr result = _clouds[0];
@@ -332,7 +332,7 @@ void MainWindow::run() {
     _visualizer->removeAllPointClouds();
     _visualizer->addPointCloud(result, "FinalCloud");
     //_visualizer->resetCameraViewpoint ("FinalCloud");
-    pcl::io::savePCDFile<PointXYZRGBA> ("FinalCloud.pcd", *result);
+    pcl::io::savePCDFile<PointXYZ> ("FinalCloud.pcd", *result);
     _combinedCloud = result;
     ui->vtkWidget->update();
     
