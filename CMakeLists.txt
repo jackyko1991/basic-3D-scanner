@@ -7,7 +7,6 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-# FIND_PACKAGE(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 FIND_PACKAGE(VTK REQUIRED)
 INCLUDE(${VTK_USE_FILE})
 
@@ -23,16 +22,6 @@ endif()
 # Find includes in corresponding build directories
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-# set(qt_HEADERS mainwindow.h)
-# set(qt_SOURCES main.cpp mainwindow.cpp)
-# set(qt_UIS mainwindow.ui)
-# set(qt_RESOURCES resources.qrc)
-
-# ##optimization
-# add_definitions(-O3 -Wno-deprecated -DNDEBUG -pipe -ffast-math -funroll-loops -ftree-vectorize -fomit-frame-pointer -pipe -mfpmath=sse -mmmx -msse -mtune=core2 -march=core2 -msse2 -msse3 -mssse3 -msse4)
-# #add_definitions(-momit-leaf-frame-pointer -fomit-frame-pointer -floop-block -ftree-loop-distribution -ftree-loop-linear -floop-interchange -floop-strip-mine -fgcse-lm -fgcse-sm -fsched-spec-load)
-# add_definitions (-O3 -Winvalid-pch -pipe -funroll-loops -fno-strict-aliasing)
-
 file(GLOB UI_FILES *.ui)
 file(GLOB QT_WRAP *.h)
 file(GLOB C_FILES *.c)
@@ -45,7 +34,7 @@ if(${VTK_VERSION} VERSION_GREATER "6" AND VTK_QT_VERSION VERSION_GREATER "4")
   # CMAKE_AUTOMOC in ON so the MOC headers will be automatically wrapped.
   add_executable(ScannerProject MACOSX_BUNDLE
     ${CXX_FILES} ${C_FILES} ${UISrcs} ${QT_WRAP} ${QT_RESOURCES})
-  qt5_use_modules(ScannerProject Core Gui)
+  qt5_use_modules(ScannerProject Core Gui Concurrent)
   target_link_libraries(ScannerProject ${VTK_LIBRARIES} ${PCL_LIBRARIES})
 else()
   QT4_WRAP_UI(UISrcs ${UI_FILES})
@@ -64,15 +53,3 @@ else()
     target_link_libraries(ScannerProject vtkHybrid QVTK vtkViews ${QT_LIBRARIES} ${PCL_LIBRARIES})
   endif()
 endif()
-
-# qt4_wrap_cpp(myproject_MOC ${qt_HEADERS})
-# qt4_wrap_ui(qt_UIS_H ${qt_UIS})
-
-
-
-# add_executable(ScannerProject ${qt_SOURCES}
-#     ${myproject_MOC}
-#     ${qt_RESOURCES_QRC}
-#     ${qt_UIS_H} rs232.c motordriver.cpp)
-
-# target_link_libraries(ScannerProject ${QT_LIBRARIES} QVTK vtkRendering ${PCL_LIBRARIES})

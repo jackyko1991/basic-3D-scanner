@@ -6,26 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>930</width>
-    <height>540</height>
+    <width>1006</width>
+    <height>686</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>275</width>
-    <height>390</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>930</width>
-    <height>540</height>
+    <width>720</width>
+    <height>480</height>
    </size>
   </property>
   <property name="font">
@@ -37,185 +31,161 @@
    <string>3D SCANNER - Test</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>241</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Clipping Options</string>
-    </property>
-    <widget class="QWidget" name="formLayoutWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>221</width>
-       <height>269</height>
-      </rect>
-     </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <property name="labelAlignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="sensorStatusIcon">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap resource="resources.qrc">:/icons/resources/kinect-disconnected.png</pixmap>
+            </property>
+            <property name="scaledContents">
+             <bool>false</bool>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="refreshButton">
+            <property name="toolTip">
+             <string>New Scan</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/icons/resources/refresh.png</normaloff>:/icons/resources/refresh.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="captureButton">
+            <property name="toolTip">
+             <string>Start Scanning</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="resources.qrc">
+              <normaloff>:/icons/resources/start.png</normaloff>:/icons/resources/start.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Clipping Options</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="captureCountLabel">
+              <property name="text">
+               <string># Capture </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="captureCountSpinBox">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>2</number>
+              </property>
+              <property name="maximum">
+               <number>150</number>
+              </property>
+              <property name="value">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>409</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cloud_mesh_check_box">
+         <property name="text">
+          <string>Cloud/Mesh</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="progressBar">
+         <property name="value">
+          <number>5</number>
+         </property>
+         <property name="format">
+          <string>%p%</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QVTKWidget" name="vtkWidget" native="true">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 0, 0);</string>
       </property>
-      <property name="formAlignment">
-       <set>Qt::AlignHCenter|Qt::AlignTop</set>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="captureCountLabel">
-        <property name="text">
-         <string># Capture </string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="captureCountSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimum">
-         <number>2</number>
-        </property>
-        <property name="maximum">
-         <number>150</number>
-        </property>
-        <property name="value">
-         <number>5</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="refreshButton">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>20</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>New Scan</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resources.qrc">
-      <normaloff>:/icons/resources/refresh.png</normaloff>:/icons/resources/refresh.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>24</width>
-      <height>24</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="kinectStatusIcon">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>79</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="resources.qrc">:/icons/resources/kinect-disconnected.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="wordWrap">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="captureButton">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>20</y>
-      <width>44</width>
-      <height>44</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Start Scanning</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="resources.qrc">
-      <normaloff>:/icons/resources/start.png</normaloff>:/icons/resources/start.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>24</width>
-      <height>24</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>470</y>
-      <width>241</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>5</number>
-    </property>
-    <property name="format">
-     <string>%p%</string>
-    </property>
-   </widget>
-   <widget class="QVTKWidget" name="vtkWidget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>10</y>
-      <width>640</width>
-      <height>480</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 0, 0);</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="cloud_mesh_check_box">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>390</y>
-      <width>111</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Cloud/Mesh</string>
-    </property>
-   </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -241,30 +211,14 @@
  </resources>
  <connections>
   <connection>
-   <sender>captureButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onCaptureClick()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>817</x>
-     <y>242</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>refreshButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>onRefreshClick()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>730</x>
-     <y>242</y>
+     <x>203</x>
+     <y>77</y>
     </hint>
     <hint type="destinationlabel">
      <x>479</x>
@@ -275,7 +229,7 @@
   <connection>
    <sender>MainWindow</sender>
    <signal>updateKinectPixmap(QPixmap)</signal>
-   <receiver>kinectStatusIcon</receiver>
+   <receiver>sensorStatusIcon</receiver>
    <slot>setPixmap(QPixmap)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -283,8 +237,8 @@
      <y>268</y>
     </hint>
     <hint type="destinationlabel">
-     <x>719</x>
-     <y>56</y>
+     <x>98</x>
+     <y>63</y>
     </hint>
    </hints>
   </connection>
