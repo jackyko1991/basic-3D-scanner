@@ -57,12 +57,12 @@ public:
 
     inline int getCaptureCount () const {return (_captureCount);}
 public slots:
-    void setXMin(double newXMin);
-    void setXMax(double newXMax);
-    void setYMin(double newYMin);
-    void setYMax(double newYMax);
-    void setZMin(double newZMin);
-    void setZMax(double newZMax);
+    //void setXMin(double newXMin);
+    //void setXMax(double newXMax);
+    //void setYMin(double newYMin);
+    //void setYMax(double newYMax);
+    //void setZMin(double newZMin);
+    //void setZMax(double newZMax);
     void setCaptureCount (int count);
     void onCaptureClick();
     void onRefreshClick();
@@ -90,7 +90,7 @@ private:
     bool running;
     bool _capture;
     int _progress;
-    int _rotationCount;
+    //int _rotationCount;
     int _captureCount;
     
     // Clipping boundaries in centimeters

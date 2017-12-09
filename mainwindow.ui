@@ -34,7 +34,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>3D SCANNER - CSE395 - GROUP 7</string>
+   <string>3D SCANNER - Test</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="groupBox_2">
@@ -68,147 +68,6 @@
       <property name="formAlignment">
        <set>Qt::AlignHCenter|Qt::AlignTop</set>
       </property>
-      <item row="1" column="0">
-       <widget class="QLabel" name="xMinLabel">
-        <property name="text">
-         <string>xMin</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="xMinDoubleSpinBox">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimum">
-         <double>-99.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>99.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.010000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="xMaxLabel">
-        <property name="text">
-         <string>xMax</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="xMaxDoubleSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimum">
-         <double>-99.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>99.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.010000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="yMinLabel">
-        <property name="text">
-         <string>yMin</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="yMinDoubleSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimum">
-         <double>-99.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>99.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.010000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="yMaxLabel">
-        <property name="text">
-         <string>yMax</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QDoubleSpinBox" name="yMaxDoubleSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimum">
-         <double>-99.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>99.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.010000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="zMinLabel">
-        <property name="text">
-         <string>zMin</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QDoubleSpinBox" name="zMinDoubleSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimum">
-         <double>-99.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>99.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.010000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="zMaxLabel">
-        <property name="text">
-         <string>zMax</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QDoubleSpinBox" name="zMaxDoubleSpinBox">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="minimum">
-         <double>-99.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>99.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.010000000000000</double>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="captureCountLabel">
         <property name="text">
@@ -331,7 +190,7 @@
      <string>%p%</string>
     </property>
    </widget>
-   <widget class="QVTKWidget" name="vtkWidget">
+   <widget class="QVTKWidget" name="vtkWidget" native="true">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -381,102 +240,6 @@
   <include location="resources.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>xMinDoubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setXMin(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>817</x>
-     <y>69</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>xMaxDoubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setXMax(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>817</x>
-     <y>98</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>yMinDoubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setYMin(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>817</x>
-     <y>127</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>yMaxDoubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setYMax(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>817</x>
-     <y>156</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>zMinDoubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setZMin(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>817</x>
-     <y>185</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>zMaxDoubleSpinBox</sender>
-   <signal>valueChanged(double)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setZMax(double)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>817</x>
-     <y>214</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>captureButton</sender>
    <signal>clicked()</signal>
