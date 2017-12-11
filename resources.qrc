@@ -1,9 +1,10 @@
 <RCC>
-    <qresource prefix="/icons">
-        <file>resources/kinect-disconnected.png</file>
-        <file>resources/kinect-off.png</file>
-        <file>resources/kinect-on.png</file>
-        <file>resources/refresh.png</file>
-        <file>resources/start.png</file>
-    </qresource>
+  <qresource prefix="/icons">
+    <file>resources/pause.png</file>
+    <file>resources/kinect-disconnected.png</file>
+    <file>resources/kinect-off.png</file>
+    <file>resources/kinect-on.png</file>
+    <file>resources/refresh.png</file>
+    <file>resources/start.png</file>
+  </qresource>
 </RCC>

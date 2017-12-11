@@ -211,34 +211,34 @@
  </resources>
  <connections>
   <connection>
+   <sender>cloud_mesh_check_box</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showCloudMesh(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>620</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>refreshButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>onRefreshClick()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>203</x>
-     <y>77</y>
+     <x>147</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
      <x>479</x>
      <y>268</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>MainWindow</sender>
-   <signal>updateKinectPixmap(QPixmap)</signal>
-   <receiver>sensorStatusIcon</receiver>
-   <slot>setPixmap(QPixmap)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>479</x>
-     <y>268</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>98</x>
-     <y>63</y>
     </hint>
    </hints>
   </connection>
@@ -265,28 +265,12 @@
    <slot>setCaptureCount(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>172</x>
-     <y>139</y>
+     <x>187</x>
+     <y>129</y>
     </hint>
     <hint type="destinationlabel">
      <x>137</x>
      <y>249</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cloud_mesh_check_box</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>showCloudMesh(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>195</x>
-     <y>415</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>464</x>
-     <y>269</y>
     </hint>
    </hints>
   </connection>

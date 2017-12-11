@@ -11,8 +11,7 @@
 #include <QMainWindow>
 #include <QString>
 #include <QProgressDialog>
-#include <qtconcurrentrun.h>
-#include <QtConcurrent>
+#include <QFileDialog>
 
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
@@ -20,6 +19,9 @@
 #include <pcl/io/openni2_grabber.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/common/time.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/gpu/features/features.hpp>
 
 #include <vtkRenderWindow.h>
 
@@ -73,13 +75,6 @@ public:
     inline void capture() { _capture = !_capture; }
     inline int getProgress() { return _progress; }
 
-    //inline float getXMin () const {return (_x_min);}
-    //inline float getXMax () const {return (_x_max);}
-    //inline float getYMin () const {return (_y_min);}
-    //inline float getYMax () const {return (_y_max);}
-    //inline float getZMin () const {return (_z_min);}
-    //inline float getZMax () const {return (_z_max);}
-
     inline int getCaptureCount () const {return (_captureCount);}
 
 public slots:
@@ -91,7 +86,8 @@ public slots:
     void showCloudMesh(bool status);
 
 signals:
-    void updateKinectPixmap(QPixmap pixmap);
+    void updateSensorPixmap(QPixmap pixmap);
+	void updateCapturePixmap(QPixmap pixmap);
 
 private:
     Ui::MainWindow *ui;
@@ -99,6 +95,7 @@ private:
     
     GrayCloudConstPtr _latestCloud;
     GrayCloudConstPtr _combinedCloud;
+	GrayCloudPtr _outputCloud;
     Mesh _combinedMesh;
     mutable boost::mutex _cloud_mutex;
     mutable boost::mutex _visualizer_mutex;
@@ -112,7 +109,6 @@ private:
     int _progress;
     int _captureCount;
 
-	//Capture* _capturer;
 
     QProgressDialog *_progressDialog;
 
@@ -124,6 +120,9 @@ private:
     void SensorStatusOff();
     void SensorStatusOn();
     void SensorStatusDisconnected();
+
+	void SetCaptureIconStart();
+	void SetCaptureIconPause();
 
 	
 private slots:
